@@ -28,11 +28,12 @@ def plot_3d_surface(D, X, y_val, Z_row):
 def plot_2d_contour(D):
     d = D.transpose()
     levels = 10
-    plt.subplots()
-    plt.tricontourf(d[0], d[1], d[2], levels=levels, cmap='viridis')
-    mappable = mtp.cm.ScalarMappable(cmap='viridis')
-    mappable.set_array(d[2])
-    plt.colorbar(mappable, label='Function Value F(x,y) - Z coordinate')
+    fig, ax = plt.subplots()
+    
+    contour = ax.tricontourf(d[0], d[1], d[2], levels=levels, cmap='viridis')
+    
+    fig.colorbar(contour, ax=ax, label='Function Value F(x,y) - Z coordinate')
+    
     plt.xlabel('X')
     plt.ylabel('Y')
     plt.title("2D Contour Map Visualization")
