@@ -20,7 +20,7 @@ def plot_3d_surface(D, X, y_val, Z_row):
     ax1.set_box_aspect([1, 1, 1], zoom=1.0)
     ax1.set_title('3D Surface Visualization')
 
-    Y_arr = np.full((X.shape[0], 1), y_val)
+    Y_arr = np.full(X.shape, y_val)
     ax1.plot(X, Y_arr, Z_row, 'ro-', label='Function F(x,y) for y=0')
     plt.legend()
     plt.show()
