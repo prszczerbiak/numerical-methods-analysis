@@ -59,6 +59,101 @@ def plot_lagrange(X, Y, A, nodes):
     plt.grid()
     plt.show()
 
+def plot_spline(X, Y, K):
+    xt = np.linspace(X[0], X[-1], 100)
+    yt = np.zeros(xt.shape[0])
+    
+    for i in range(xt.shape[0]):
+        yt[i] = spline_function(xt[i], X, K)
+    
+    plt.subplots()
+    plt.plot(xt, yt, 'b-', linewidth=2.0, label='B-spline function B(x)')
+    plt.plot(X, Y, 'ro', label='Given nodes [x,z]')
+    plt.xlabel('X')
+    plt.ylabel('F(x,y)')
+    plt.title('B-spline Interpolation for y=0')
+    plt.legend()
+    plt.grid()
+    plt.show()
+
+def plot_lagrange_vs_spline(X, Y, K, A, nodes):
+    xt = np.linspace(X[0], X[-1], 100)
+    yL = np.zeros(xt.shape[0])
+    yS = np.zeros(xt.shape[0])
+    l = -1
+
+    for i in range(yL.shape[0]):
+        if i % 20 == 0:
+            l += 1
+        yL[i] = lagrange_function(A[l], xt[i], nodes[l])
+        yS[i] = spline_function(xt[i], X, K)
+
+    plt.subplots()
+    plt.plot(xt, yL, 'b-', linewidth=2.0, label='Lagrange Interpolation')
+    plt.plot(xt, yS, 'g-', linewidth=2.0, label='B-spline Interpolation')
+    plt.plot(X, Y, 'ro', linewidth=2.0, label='Given nodes [x,z]')
+    plt.xlabel('X')
+    plt.ylabel('F(x,y)')
+    plt.title('Comparison: Lagrange vs B-spline Interpolation')
+    plt.legend()
+    plt.grid()
+    plt.show()
+
+def plot_linear_approximation(X, Y, A):
+    x_vals = np.linspace(X[0], X[-1], 100)
+    y_vals = A[0] + A[1] * x_vals
+
+    plt.subplots()
+    plt.plot(x_vals, y_vals, 'r-', linewidth=2.0, label='Linear Approximation')
+    plt.plot(X, Y, 'go', linewidth=2.0, label='Given nodes [x,z]')
+    plt.xlabel('X')
+    plt.ylabel('F(x,y)')
+    plt.title('Least Squares Linear Approximation for y=0')
+    plt.grid()
+    plt.legend()
+    plt.show()
+
+def plot_quadratic_approximation(X, Y, A):
+    x_vals = np.linspace(X[0], X[-1], 100)
+    y_vals = A[0] + A[1] * x_vals + A[2] * (x_vals**2)
+
+    plt.subplots()
+    plt.plot(x_vals, y_vals, 'r-', linewidth=2.0, label='Quadratic Approximation')
+    plt.plot(X, Y, 'go', linewidth=2.0, label='Given nodes [x,z]')
+    plt.xlabel('X')
+    plt.ylabel('F(x,y)')
+    plt.title('Least Squares Quadratic Approximation for y=0')
+    plt.grid()
+    plt.legend()
+    plt.show()
+
+def plot_approximations_comparison(X, Y, A_lin, A_quad):
+    x_vals = np.linspace(X[0], X[-1], 100)
+    y_lin = A_lin[0] + A_lin[1] * x_vals
+    y_quad = A_quad[0] + A_quad[1] * x_vals + A_quad[2] * (x_vals**2)
+
+    plt.subplots()
+    plt.plot(x_vals, y_lin, 'b-', linewidth=2.0, label='Linear Approximation')
+    plt.plot(x_vals, y_quad, 'g-', linewidth=2.0, label='Quadratic Approximation')
+    plt.plot(X, Y, 'ro', linewidth=2.0, label='Given nodes [x,z]')
+    plt.xlabel('X')
+    plt.ylabel('F(x,y)')
+    plt.title('Comparison: Linear vs Quadratic Approximation')
+    plt.grid()
+    plt.legend()
+    plt.show()
+
+def plot_derivative(X, Y, Yp):
+    plt.subplots()
+    plt.plot(X, Y, 'bo-', linewidth=2.0, label='Nodes [x,y]')
+    plt.plot(X, Yp, 'ro-', linewidth=2.0, label='Approximated Derivative')
+    plt.xlabel('X')
+    plt.ylabel('F(x,y)')
+    plt.title('Derivative of F(x,y) for y=0')
+    plt.grid()
+    plt.legend()
+    plt.show()
+
 def plot_monotonicity(X, Y):
     M = np.zeros(Y.shape[0])
     for i in range(M.shape[0]):
@@ -75,3 +170,4 @@ def plot_monotonicity(X, Y):
     plt.grid()
     plt.legend()
     plt.show()
+
