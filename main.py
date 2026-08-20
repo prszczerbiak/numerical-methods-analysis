@@ -28,9 +28,12 @@ def main():
     plot_2d_contour(D)
 
     # 3. Statistics
-    srednia = [calculate_mean(Z[i]) for i in range(Z.shape[0])]
-    print('Mean:\n', srednia)
-    print('Standard Deviation:\n', [calculate_std_dev(Z[i], srednia[i]) for i in range(Z.shape[0])])
+    mean = np.array([calculate_mean(Z[i]) for i in range(Z.shape[0])])
+    sd = np.array([calculate_std_dev(Z[i], mean[i]) for i in range(Z.shape[0])])
+    median = np.array([calculate_median(Z[i]) for i in range(Z.shape[0])])
+    print('Mean:\n', mean)
+    print('Standard Deviation:\n', sd)
+    print('Median:\n', median)
 
     # 4. Interpolation and Display
     l = 0
@@ -49,10 +52,25 @@ def main():
 
     AS0 = spline_interpolation(X, Z[0])
     print('B-spline Interpolation:\n', AS0)
+
+    plot_lagrange_vs_spline(X, Z[0], AS0, AL0, XdL)
+
+    #5. Approximation
+    AAL0 = linear_approximation(X, Z[0])
+    print('Linear approximation - coefficients:\n', AAL0)
+    plot_linear_approximation(X, Z[0], AAL0)
+
+    AAK0 = quadratic_approximation(X, Z[0])
+    print('Quadratic approximation - coefficients:\n', AAK0)
+    plot_quadratic_approximation(X, Z[0], AAK0)
+
+    plot_approximations_comparison(X, Z[0], AAL0, AAK0)
     
-    # 5. Derivatives & Monotonicity
+    # 6. Derivatives & Monotonicity
     P0 = first_derivative(X, Z[0])
     print('First Degree Derivative:\n', P0)
+
+    plot_derivative(X, Z[0], P0)
     plot_monotonicity(X, P0)
 
 if __name__ == "__main__":
