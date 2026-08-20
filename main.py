@@ -73,5 +73,41 @@ def main():
     plot_derivative(X, Z[0], P0)
     plot_monotonicity(X, P0)
 
+    # 7. Integration (Rectangle vs Simpson)
+
+    a = X[0]
+    b = X[-1]
+    n_int = 10000
+
+    cISp = integrate_rect_spline(AS0, a, b, n_int, X)
+    cISs = integrate_simpson_spline(AS0, a, b, n_int, X)
+    cALp = integrate_rect_poly(AAL0, a, b, n_int)
+    cALs = integrate_simpson_poly(AAL0, a, b, n_int)
+    cAKp = integrate_rect_poly(AAK0, a, b, n_int)
+    cAKs = integrate_simpson_poly(AAK0, a, b, n_int)
+
+    print('\n--- INTEGRATION RESULTS ---')
+    print('B-spline Integration:')
+    print(f'Rectangle Method: {cISp} \nSimpson\'s Method: {cISs}')
+    print(f'Percentage Difference: {(cISp - cISs) / cISp * 100} %\n')
+    
+    print('Linear Approximation Integration:')
+    print(f'Rectangle Method: {cALp} \nSimpson\'s Method: {cALs}')
+    print(f'Percentage Difference: {(cALp - cALs) / cALp * 100} %\n')
+    
+    print('Quadratic Approximation Integration:')
+    print(f'Rectangle Method: {cAKp} \nSimpson\'s Method: {cAKs}')
+    print(f'Percentage Difference: {(cAKp - cAKs) / cAKp * 100} %\n')
+
+    # 8. Surface Area Calculation
+    surface_area = 0
+    for i in range(Y.shape[0] - 1):
+        for j in range(X.shape[0] - 1):
+            surface_area += triangle_area(X[j], Y[i], Z[i][j], X[j+1], Y[i], Z[i][j+1], X[j], Y[i+1], Z[i+1][j])
+            surface_area += triangle_area(X[j+1], Y[i], Z[i][j+1], X[j+1], Y[i+1], Z[i+1][j+1], X[j], Y[i+1], Z[i+1][j])
+            
+    print('--- SURFACE AREA ---')
+    print(f'Total 3D Surface Area: {surface_area}\n')
+
 if __name__ == "__main__":
     main()
